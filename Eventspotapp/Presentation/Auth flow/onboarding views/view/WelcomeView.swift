@@ -8,45 +8,56 @@
 import SwiftUI
 
 struct WelcomeView: View {
+    @State private var navigateToNextView = false
+
     var body: some View {
-        VStack{
-            Image("welcome")
-            .foregroundColor(.clear)
-            .frame(maxWidth: .infinity)
+        NavigationView {
             
-           
-            Text("Create and Join Events with few clicks.")
-                .bold()
-                .font(.system(size: 34))
-
-            .kerning(0.374)
-            .foregroundColor(.black)
-            .frame(width: .infinity,  alignment: .topLeading)
-            .padding(.vertical)
-            Text("Create or Join events in your area with an outstanding event organizing app with simple steps.")
-                .font(.system( size: 18))
-              .foregroundColor(Color(red: 0.67, green: 0.67, blue: 0.67))
-              .frame(width: .infinity, height: 80, alignment: .topLeading)
-            Spacer()
-            HStack(alignment: .center, spacing: 0) { Text("Get Started")
-                    .foregroundColor(.white)
-            }
-
-            .frame(maxWidth : .infinity, maxHeight: 48, alignment: .center)
-            .background(Color(red: 0.88, green: 0.27, blue: 0.35))
-            .cornerRadius(4)
-            .padding()
-            .onTapGesture {
+            VStack{
+                Image("welcome")
+                    .foregroundColor(.clear)
+                    .frame(maxWidth: .infinity)
+                
+                
+                Text("Create and Join Events with few clicks.")
+                    .bold()
+                     .font(.system(size: 34))
+                     .foregroundColor(.black)
+                     .frame(maxWidth: .infinity, alignment: .topLeading)
+                     .padding(.horizontal)
+                     .multilineTextAlignment(.leading)
+                     .fixedSize(horizontal: false, vertical: true) // Allow multiline text
+                     .padding(.vertical)
+                Text("Create or Join events in your area with an outstanding event organizing app with simple steps.")
+                    .font(.system( size: 18))
+                    .foregroundColor(Color(red: 0.67, green: 0.67, blue: 0.67))
+                Spacer()
+                HStack(alignment: .center, spacing: 0) {
+                    NavigationLink(destination: RegisterView()
+                                   .navigationBarBackButtonHidden(true),
+                                   isActive: $navigateToNextView) {
+                        
+                        Text("Get Started")
+                            .foregroundColor(.white)
+                    }
+                }
+                
+                .frame(maxWidth : .infinity, maxHeight: 48, alignment: .center)
+                .background(Color(red: 0.88, green: 0.27, blue: 0.35))
+                .cornerRadius(4)
+                .padding()
+                .onTapGesture {
+                    
+                }
+                Text("Already registered in the app? Login")
+                    .font(
+                        Font.custom("SF Pro Text", size: 16)
+                            .weight(.medium)
+                    )
+                    .multilineTextAlignment(.center)
+                    .foregroundColor(Color(red: 0.13, green: 0.15, blue: 0.17))
                 
             }
-            Text("Already registered in the app? Login")
-              .font(
-                Font.custom("SF Pro Text", size: 16)
-                  .weight(.medium)
-              )
-              .multilineTextAlignment(.center)
-              .foregroundColor(Color(red: 0.13, green: 0.15, blue: 0.17))
-
         }
         
     }
