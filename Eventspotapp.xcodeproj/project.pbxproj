@@ -11,10 +11,19 @@
 		E14087072A66CAB300595AB1 /* PaymentTicketSheet.swift in Sources */ = {isa = PBXBuildFile; fileRef = E14087062A66CAB300595AB1 /* PaymentTicketSheet.swift */; };
 		E14D26D72A65EEDB00AB86B1 /* URLImage in Frameworks */ = {isa = PBXBuildFile; productRef = E14D26D62A65EEDB00AB86B1 /* URLImage */; };
 		E14D26D92A65EEDB00AB86B1 /* URLImageStore in Frameworks */ = {isa = PBXBuildFile; productRef = E14D26D82A65EEDB00AB86B1 /* URLImageStore */; };
+		E154B2FC2A69EF31000F75B2 /* AddEventView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E154B2FB2A69EF31000F75B2 /* AddEventView.swift */; };
+		E162A2C82A6C4E480048C2C9 /* LockedView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E162A2C72A6C4E480048C2C9 /* LockedView.swift */; };
+		E162A2CA2A6C52740048C2C9 /* BaseURL.swift in Sources */ = {isa = PBXBuildFile; fileRef = E162A2C92A6C52740048C2C9 /* BaseURL.swift */; };
+		E162A2CC2A6C8C6F0048C2C9 /* EditProfileView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E162A2CB2A6C8C6F0048C2C9 /* EditProfileView.swift */; };
+		E162A2CE2A6C8C7C0048C2C9 /* ChangePasswordView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E162A2CD2A6C8C7C0048C2C9 /* ChangePasswordView.swift */; };
+		E162A2D02A6C8C8A0048C2C9 /* AppPrivacyView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E162A2CF2A6C8C8A0048C2C9 /* AppPrivacyView.swift */; };
 		E16C52EE2A5EFDD400FFB5B3 /* RegistrationViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16C52ED2A5EFDD400FFB5B3 /* RegistrationViewModel.swift */; };
 		E16C52F02A5FFB2700FFB5B3 /* SetupAccountView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16C52EF2A5FFB2700FFB5B3 /* SetupAccountView.swift */; };
 		E16C52F22A5FFB3400FFB5B3 /* ProfilePhotoView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16C52F12A5FFB3400FFB5B3 /* ProfilePhotoView.swift */; };
 		E16C52F72A6065C900FFB5B3 /* SetupAccountViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E16C52F62A6065C900FFB5B3 /* SetupAccountViewModel.swift */; };
+		E17DF34A2A6AC1BC00D8544C /* OrderResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17DF3492A6AC1BC00D8544C /* OrderResponse.swift */; };
+		E17DF34D2A6AC52300D8544C /* OrderViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17DF34C2A6AC52300D8544C /* OrderViewModel.swift */; };
+		E17DF3512A6AF55F00D8544C /* TicketDetailsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17DF3502A6AF55F00D8544C /* TicketDetailsView.swift */; };
 		E17EB1A52A617A5500A31F91 /* LoginView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17EB1A42A617A5500A31F91 /* LoginView.swift */; };
 		E17EB1A72A617A6100A31F91 /* LoginViewModel.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17EB1A62A617A6100A31F91 /* LoginViewModel.swift */; };
 		E17EB1B02A617CA000A31F91 /* MainView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E17EB1AF2A617CA000A31F91 /* MainView.swift */; };
@@ -59,10 +68,21 @@
 /* Begin PBXFileReference section */
 		E14087042A66C0CA00595AB1 /* LoginResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginResponse.swift; sourceTree = "<group>"; };
 		E14087062A66CAB300595AB1 /* PaymentTicketSheet.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PaymentTicketSheet.swift; sourceTree = "<group>"; };
+		E154B2FB2A69EF31000F75B2 /* AddEventView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AddEventView.swift; sourceTree = "<group>"; };
+		E162A2C72A6C4E480048C2C9 /* LockedView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LockedView.swift; sourceTree = "<group>"; };
+		E162A2C92A6C52740048C2C9 /* BaseURL.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BaseURL.swift; sourceTree = "<group>"; };
+		E162A2CB2A6C8C6F0048C2C9 /* EditProfileView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EditProfileView.swift; sourceTree = "<group>"; };
+		E162A2CD2A6C8C7C0048C2C9 /* ChangePasswordView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ChangePasswordView.swift; sourceTree = "<group>"; };
+		E162A2CF2A6C8C8A0048C2C9 /* AppPrivacyView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppPrivacyView.swift; sourceTree = "<group>"; };
 		E16C52ED2A5EFDD400FFB5B3 /* RegistrationViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RegistrationViewModel.swift; sourceTree = "<group>"; };
 		E16C52EF2A5FFB2700FFB5B3 /* SetupAccountView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAccountView.swift; sourceTree = "<group>"; };
 		E16C52F12A5FFB3400FFB5B3 /* ProfilePhotoView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfilePhotoView.swift; sourceTree = "<group>"; };
 		E16C52F62A6065C900FFB5B3 /* SetupAccountViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SetupAccountViewModel.swift; sourceTree = "<group>"; };
+		E17DF3492A6AC1BC00D8544C /* OrderResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderResponse.swift; sourceTree = "<group>"; };
+		E17DF34C2A6AC52300D8544C /* OrderViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OrderViewModel.swift; sourceTree = "<group>"; };
+		E17DF34E2A6ACC1500D8544C /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist; path = Info.plist; sourceTree = "<group>"; };
+		E17DF34F2A6ACC1F00D8544C /* Eventspotapp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = Eventspotapp.entitlements; sourceTree = "<group>"; };
+		E17DF3502A6AF55F00D8544C /* TicketDetailsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TicketDetailsView.swift; sourceTree = "<group>"; };
 		E17EB1A42A617A5500A31F91 /* LoginView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginView.swift; sourceTree = "<group>"; };
 		E17EB1A62A617A6100A31F91 /* LoginViewModel.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoginViewModel.swift; sourceTree = "<group>"; };
 		E17EB1AF2A617CA000A31F91 /* MainView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainView.swift; sourceTree = "<group>"; };
@@ -126,6 +146,14 @@
 			path = "login views";
 			sourceTree = "<group>";
 		};
+		E17DF34B2A6AC51600D8544C /* viewmodel */ = {
+			isa = PBXGroup;
+			children = (
+				E17DF34C2A6AC52300D8544C /* OrderViewModel.swift */,
+			);
+			path = viewmodel;
+			sourceTree = "<group>";
+		};
 		E17EB1A22A617A3D00A31F91 /* view */ = {
 			isa = PBXGroup;
 			children = (
@@ -175,6 +203,7 @@
 		E17EB1AB2A617C6300A31F91 /* tickets view */ = {
 			isa = PBXGroup;
 			children = (
+				E17DF34B2A6AC51600D8544C /* viewmodel */,
 				E17EB1B62A617E1F00A31F91 /* view */,
 			);
 			path = "tickets view";
@@ -210,6 +239,8 @@
 				E17EB1B42A617E1B00A31F91 /* EventView.swift */,
 				E17EB1BC2A61CC3E00A31F91 /* EventDetailsView.swift */,
 				E14087062A66CAB300595AB1 /* PaymentTicketSheet.swift */,
+				E154B2FB2A69EF31000F75B2 /* AddEventView.swift */,
+				E162A2C72A6C4E480048C2C9 /* LockedView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -218,6 +249,7 @@
 			isa = PBXGroup;
 			children = (
 				E17EB1B72A617E2B00A31F91 /* TicketView.swift */,
+				E17DF3502A6AF55F00D8544C /* TicketDetailsView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -226,6 +258,9 @@
 			isa = PBXGroup;
 			children = (
 				E17EB1BA2A617E3C00A31F91 /* ProfileView.swift */,
+				E162A2CB2A6C8C6F0048C2C9 /* EditProfileView.swift */,
+				E162A2CD2A6C8C7C0048C2C9 /* ChangePasswordView.swift */,
+				E162A2CF2A6C8C8A0048C2C9 /* AppPrivacyView.swift */,
 			);
 			path = view;
 			sourceTree = "<group>";
@@ -253,6 +288,8 @@
 		E180ED2C2A5EA48D006EEB23 /* Eventspotapp */ = {
 			isa = PBXGroup;
 			children = (
+				E17DF34F2A6ACC1F00D8544C /* Eventspotapp.entitlements */,
+				E17DF34E2A6ACC1500D8544C /* Info.plist */,
 				E180ED5E2A5EA528006EEB23 /* Resources */,
 				E180ED5D2A5EA504006EEB23 /* Presentation */,
 				E180ED5C2A5EA4FA006EEB23 /* Mocks */,
@@ -313,6 +350,7 @@
 				E17F83562A65C91A00D7BB41 /* Event.swift */,
 				E17F835A2A65D0D700D7BB41 /* EventResponse.swift */,
 				E14087042A66C0CA00595AB1 /* LoginResponse.swift */,
+				E17DF3492A6AC1BC00D8544C /* OrderResponse.swift */,
 			);
 			path = Domain;
 			sourceTree = "<group>";
@@ -327,6 +365,7 @@
 		E180ED5B2A5EA4E5006EEB23 /* Infrastructure */ = {
 			isa = PBXGroup;
 			children = (
+				E162A2C92A6C52740048C2C9 /* BaseURL.swift */,
 			);
 			path = Infrastructure;
 			sourceTree = "<group>";
@@ -579,12 +618,16 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				E162A2CC2A6C8C6F0048C2C9 /* EditProfileView.swift in Sources */,
 				E180ED6E2A5EB815006EEB23 /* OtpView.swift in Sources */,
 				E17EB1B52A617E1B00A31F91 /* EventView.swift in Sources */,
 				E14087072A66CAB300595AB1 /* PaymentTicketSheet.swift in Sources */,
 				E17EB1BD2A61CC3E00A31F91 /* EventDetailsView.swift in Sources */,
 				E17EB1B02A617CA000A31F91 /* MainView.swift in Sources */,
+				E17DF3512A6AF55F00D8544C /* TicketDetailsView.swift in Sources */,
+				E17DF34A2A6AC1BC00D8544C /* OrderResponse.swift in Sources */,
 				E16C52F02A5FFB2700FFB5B3 /* SetupAccountView.swift in Sources */,
+				E162A2D02A6C8C8A0048C2C9 /* AppPrivacyView.swift in Sources */,
 				E17EB1A72A617A6100A31F91 /* LoginViewModel.swift in Sources */,
 				E17F83572A65C91A00D7BB41 /* Event.swift in Sources */,
 				E16C52EE2A5EFDD400FFB5B3 /* RegistrationViewModel.swift in Sources */,
@@ -598,8 +641,13 @@
 				E180ED672A5EA86E006EEB23 /* WelcomeView.swift in Sources */,
 				E180ED2E2A5EA48D006EEB23 /* EventspotappApp.swift in Sources */,
 				E17EB1A52A617A5500A31F91 /* LoginView.swift in Sources */,
+				E162A2CE2A6C8C7C0048C2C9 /* ChangePasswordView.swift in Sources */,
+				E154B2FC2A69EF31000F75B2 /* AddEventView.swift in Sources */,
+				E162A2CA2A6C52740048C2C9 /* BaseURL.swift in Sources */,
 				E17F835B2A65D0D700D7BB41 /* EventResponse.swift in Sources */,
 				E17EB1B22A617E0A00A31F91 /* DashboardView.swift in Sources */,
+				E162A2C82A6C4E480048C2C9 /* LockedView.swift in Sources */,
+				E17DF34D2A6AC52300D8544C /* OrderViewModel.swift in Sources */,
 				E14087052A66C0CA00595AB1 /* LoginResponse.swift in Sources */,
 				E16C52F22A5FFB3400FFB5B3 /* ProfilePhotoView.swift in Sources */,
 			);
@@ -757,12 +805,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Eventspotapp/Eventspotapp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Eventspotapp/Preview Content\"";
 				DEVELOPMENT_TEAM = PDA82LW4UR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Eventspotapp/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location to show nearby events on the map.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
@@ -786,12 +837,15 @@
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = Eventspotapp/Eventspotapp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_ASSET_PATHS = "\"Eventspotapp/Preview Content\"";
 				DEVELOPMENT_TEAM = PDA82LW4UR;
 				ENABLE_PREVIEWS = YES;
 				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_FILE = Eventspotapp/Info.plist;
+				INFOPLIST_KEY_NSLocationWhenInUseUsageDescription = "This app uses your location to show nearby events on the map.";
 				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchScreen_Generation = YES;

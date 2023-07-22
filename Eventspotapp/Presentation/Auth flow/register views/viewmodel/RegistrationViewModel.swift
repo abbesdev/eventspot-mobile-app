@@ -27,7 +27,7 @@ class RegistrationViewModel: ObservableObject {
             "role": role
         ]
         
-        guard let url = URL(string: "http://localhost:3000/api/signup") else {
+        guard let url = URL(string: "\(BASE_URL)api/signup") else {
             self.errorMessage = "Invalid API endpoint"
             return
         }

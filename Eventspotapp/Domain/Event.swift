@@ -20,7 +20,8 @@ struct Event: Codable, Identifiable {
     let image: String
     let title: String
     let description: String
-    let location: String
+    let locationLatitude: Double
+    let locationLongitude: Double
     let startDate: Date
     let endDate: Date
     let organizer: String // Assuming the organizer is represented by their username or some unique identifier

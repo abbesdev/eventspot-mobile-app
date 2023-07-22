@@ -9,7 +9,8 @@ import SwiftUI
 
 struct MainView: View {
     @State private var selectedTab = 0
-    
+    @State private var userRole = "normal user" // Replace this with your method to get the user's role
+  
     var body: some View {
         TabView(selection: $selectedTab) {
             // Home view
@@ -21,15 +22,25 @@ struct MainView: View {
                 .tag(0)
             
             // Events view
-            EventView()
-                .tabItem {
-                    Image(systemName: "lines.measurement.horizontal")
-                    Text("My events")
-                }
-                .tag(1)
-            
-          
-            
+        if userRole == "normal user" {
+              LockedView()
+                  .tabItem {
+                      Image(systemName: "lines.measurement.horizontal")
+                      Text("My events")
+                  }
+                  .tag(1)
+            }
+                      
+        if userRole == "organizer" {
+                EventView()
+                    .tabItem {
+                        Image(systemName: "lines.measurement.horizontal")
+                        Text("My events")
+                    }
+                    .tag(1)
+                
+                
+            }
             // Tickets view
             TicketView()
                 .tabItem {
@@ -46,7 +57,15 @@ struct MainView: View {
                 }
                 .tag(3)
         }
-        .accentColor(.blue)
+        .accentColor(Color(red: 0.88, green: 0.27, blue: 0.35))
+        .onAppear {
+                   // Load user's role from UserDefaults or any other method
+                   if let savedRole = UserDefaults.standard.string(forKey: "userRole") {
+                       userRole = savedRole
+                   }
+               }
+
+
     }
 }
 

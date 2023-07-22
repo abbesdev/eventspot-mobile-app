@@ -54,12 +54,11 @@ struct EventDetailsView: View {
                         URLImage( URL(string: event.image) ?? URL(string: "")!) { image in
                             image
                                 .resizable()
-                                .cornerRadius(8)
-
-                                .aspectRatio(contentMode: .fill)
-                                .frame(width: .infinity,height:250 ) // Adjust the size of the image
-                                .foregroundColor(.blue) // Change the color of the image as desired
-                                .padding()
+                                    .cornerRadius(8)
+                                    .scaledToFit()
+                                    .frame(maxWidth: .infinity, maxHeight: 250)
+                                    .foregroundColor(.blue)
+                                    .padding()
                         }
                         HStack{
                             Text(event.title)
@@ -85,7 +84,7 @@ struct EventDetailsView: View {
                                 .foregroundColor(.blue)
                             
                             Text("\(event.startDate1, formatter: dateOnlyFormatter)")
-                                .font(Font.custom("SF Pro Text", size: 15))
+                                .font(.system( size: 15))
                             Spacer()
                         }
                         .padding(.horizontal)
@@ -102,7 +101,7 @@ struct EventDetailsView: View {
                             
                             Text(event.description)
                                 .font(.system(size: 15))
-                                .frame(width: .infinity, alignment: .leading)
+                                .frame(maxWidth: .infinity, alignment: .leading)
                                 .padding(.horizontal)
                                 .foregroundColor(.gray)
                             
@@ -117,7 +116,7 @@ struct EventDetailsView: View {
                                 .foregroundColor(.black)
                                 .padding(.horizontal)
                         }
-                        .frame(width: .infinity)
+                        .frame(maxWidth: .infinity)
                         HStack{
                             Image("avatar") // Replace with your image name or URL
                                 .resizable()
@@ -129,23 +128,19 @@ struct EventDetailsView: View {
                                 // Label 1
                                 Text(event.organizer)
                                     .font(
-                                        Font.custom("SF Pro Text", size: 17)
+                                        .system( size: 17)
                                             .weight(.semibold)
                                     )
                                     .foregroundColor(Color(red: 0.09, green: 0.1, blue: 0.12))
                                     .frame(width: 229, alignment: .topLeading)
                                 // Subhead
                                 Text("CEO of SpaceX")
-                                    .font(Font.custom("SF Pro Text", size: 15))
+                                    .font(.system( size: 15))
                                     .foregroundColor(Color(red: 0.61, green: 0.62, blue: 0.64))
                                     .frame(width: 229, alignment: .topLeading)
                             }
                             Spacer()
-                            HStack(alignment: .center, spacing: 0) { Image(systemName: "plus").foregroundColor(.white) }
                             
-                                .frame(width: 55.99998, height: 35.99999, alignment: .center)
-                                .background(Color(red: 0.88, green: 0.27, blue: 0.35))
-                                .cornerRadius(4)
                         }
                         .padding(.horizontal)
                         Divider()
@@ -165,8 +160,8 @@ struct EventDetailsView: View {
                                 .frame(width: 11, height: 11)
                                 .foregroundColor(.blue)
                                 .padding(.leading,10)
-                            Text(event.location)
-                                .font(Font.custom("SF Pro", size: 12))
+                            Text("\(event.locationLatitude)")
+                                .font(.system( size: 12))
                                 .foregroundColor(Color(red: 0.67, green: 0.67, blue: 0.67))
                         }
                         if isLocationGeocoded {
@@ -177,10 +172,10 @@ struct EventDetailsView: View {
                                                    .cornerRadius(12)
                                                    .padding()
                                            } else {
-                                               ProgressView("Geocoding...")
+                                               ProgressView("Wait for the map to load please...")
                                                    .padding()
                                                    .onAppear {
-                                                       geocodeLocation()
+                                                       setRegion()
                                                    }
                                            }
                  
@@ -215,28 +210,25 @@ struct EventDetailsView: View {
             return formatter
         }()
     private func setRegion() {
-        let location = CLLocation(latitude: 22.013, longitude: -11.051)
-          region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
-      }
-    private func geocodeLocation() {
-          let geocoder = CLGeocoder()
-          geocoder.geocodeAddressString(event.location) { placemarks, error in
-              guard let placemark = placemarks?.first, let location = placemark.location else {
-                  isLocationGeocoded = true
-                  return
-              }
-              
-              region = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
-              
-              let annotation = MKPointAnnotation()
-              annotation.coordinate = location.coordinate
-              annotation.title = event.title
-              
-              annotations = [annotation]
-              
-              isLocationGeocoded = true
-          }
-      }
+        let location = CLLocation(latitude: event.locationLatitude, longitude: event.locationLongitude)
+        
+        // Use CLGeocoder to perform reverse geocoding
+        let geocoder = CLGeocoder()
+        geocoder.reverseGeocodeLocation(location) { placemarks, error in
+            if let error = error {
+                print("Error geocoding location: \(error.localizedDescription)")
+                return
+            }
+            
+            // Update the region once reverse geocoding is complete
+            if let placemark = placemarks?.first {
+                let coordinateRegion = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
+                region = coordinateRegion
+                isLocationGeocoded = true // Set the flag to true once the geocoding is done
+                annotations = [MKPointAnnotation(__coordinate: location.coordinate)] // Add a map annotation for the event location
+            }
+        }
+    }
     
 }
 extension MKPointAnnotation: Identifiable {

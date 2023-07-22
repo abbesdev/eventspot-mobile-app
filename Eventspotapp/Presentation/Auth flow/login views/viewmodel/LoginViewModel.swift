@@ -14,7 +14,7 @@ class LoginViewModel: ObservableObject {
     private var cancellable: AnyCancellable?
 
     func login() {
-        let loginURL = URL(string: "http://localhost:3000/api/login")! // Replace with your login API URL
+        let loginURL = URL(string: "\(BASE_URL)api/login")! // Replace with your login API URL
 
         let credentials = UserCredentials(email: email, password: password)
 
@@ -43,7 +43,9 @@ class LoginViewModel: ObservableObject {
                 // Handle the successful login response here
                 // Save the token and user credentials in UserDefaults
                 UserDefaults.standard.set(userResponse.token, forKey: "userToken")
+                UserDefaults.standard.set(userResponse.user.id, forKey: "userId")
                 UserDefaults.standard.set(userResponse.user.username, forKey: "userCredentials")
+                UserDefaults.standard.set(userResponse.user.role, forKey: "userRole")
                 UserDefaults.standard.set(true, forKey: "isLoggedIn")
                 self?.isLoggedIn = true
                 print("\(userResponse.user)")

@@ -17,6 +17,8 @@ struct ProfileView: View {
     @State private var notificationEnabled = false
     @State private var invitesEnabled = false
     @State private var isProfileEditSheetPresented = false // Track whether the sheet is presented
+    @State private var isPasswordSheetPresented = false // Track whether the sheet is presented
+    @State private var isAppPrivacySheetPresented = false // Track whether the sheet is presented
 
     var body: some View {
         NavigationView {
@@ -35,6 +37,7 @@ struct ProfileView: View {
                     VStack(alignment: .leading, spacing: 20) {
                         Text("User profile")
                             .font(.headline)
+                        
                         HStack{
                             Button("Edit Profile", action: {
                                 isProfileEditSheetPresented.toggle()
@@ -46,29 +49,21 @@ struct ProfileView: View {
                         }
                         HStack{
                             Button("Change password", action: {
-                                isProfileEditSheetPresented.toggle()
+                                isPasswordSheetPresented.toggle()
                             })
                             .foregroundColor(.black)
                             Spacer()
                             Image(systemName: "chevron.right")
                                 .foregroundColor(.black)
                         }
-                        HStack{
-                            Button("Switch to organizer", action: {
-                                isProfileEditSheetPresented.toggle()
-                            })
-                            .foregroundColor(.black)
-                            Spacer()
-                            Image(systemName: "chevron.right")
-                                .foregroundColor(.black)
-                        }
+                       
                     }
                     Divider()
-                    Text("User profile")
+                    Text("App usage")
                         .font(.headline)
                     HStack{
                         Button("App privacy", action: {
-                            isProfileEditSheetPresented.toggle()
+                            isAppPrivacySheetPresented.toggle()
                         })
                         .foregroundColor(.black)
                         Spacer()
@@ -77,7 +72,7 @@ struct ProfileView: View {
                     }
                     HStack{
                         Button("Log out", action: {
-                            isProfileEditSheetPresented.toggle()
+                            
                         })
                         .foregroundColor(.red)
                         Spacer()
@@ -86,10 +81,18 @@ struct ProfileView: View {
                     }
                 }
                 .padding(.horizontal)
+                .padding(.bottom,30)
             }
             .navigationBarTitle("Profile", displayMode: .large)
             .sheet(isPresented: $isProfileEditSheetPresented) {
-                            ProfileEditView()
+                            EditProfileView()
+                   
+                        }
+            .sheet(isPresented: $isPasswordSheetPresented) {
+                            ChangePasswordView()
+                        }
+            .sheet(isPresented: $isAppPrivacySheetPresented) {
+                            AppPrivacyView()
                         }
         }
     }
@@ -116,6 +119,7 @@ struct ProfileHeaderView: View {
                 Text(userRole)
                     .foregroundColor(.blue)
             }
+            .padding(.vertical)
         }
     }
 }
@@ -133,9 +137,8 @@ struct ProfileSettingsView: View {
             
             Toggle("Enable Notifications", isOn: $notificationEnabled)
                 .padding(.vertical, 5)
-            Toggle("Open to invites", isOn: $invitesEnabled)
-                .padding(.vertical, 5)
-           
+                
+            
         }
         .padding(.top)
     }
@@ -148,25 +151,3 @@ struct ProfileView_Previews: PreviewProvider {
     }
 }
 
-struct ProfileEditView: View {
-    // Properties to hold the edited profile data
-    @State private var editedFullName = ""
-    @State private var editedEmail = ""
-    // Add more properties for other editable data like phoneNumber, gender, etc.
-    
-    var body: some View {
-        Form {
-            Section(header: Text("Edit Profile")) {
-                TextField("Full Name", text: $editedFullName)
-                TextField("Email", text: $editedEmail)
-                // Add more TextField for other editable data
-            }
-            
-            Button("Save Changes") {
-                // Handle saving changes here
-                // You can update the user data in your backend or user authentication system with the edited values
-            }
-        }
-        .padding()
-    }
-}

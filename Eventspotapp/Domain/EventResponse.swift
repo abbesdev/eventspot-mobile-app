@@ -12,7 +12,8 @@ struct EventResponse: Codable, Identifiable {
     let title: String
     let image: String
     let description: String
-    let location: String
+    let locationLatitude: Double
+    let locationLongitude: Double
     let startDate: String
     let endDate: String
     let organizer: String
@@ -34,7 +35,8 @@ struct EventResponse: Codable, Identifiable {
         case title
         case image
         case description
-        case location
+        case locationLatitude
+        case locationLongitude
         case startDate
         case endDate
         case organizer

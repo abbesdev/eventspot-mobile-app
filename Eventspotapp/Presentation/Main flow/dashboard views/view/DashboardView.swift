@@ -53,12 +53,17 @@ struct DashboardView: View {
     @State private var isKeyboardActive = false
     @State private var selectedCategory: String? = nil
     @State private var isLoadingEvents = true
+    @State private var isMapClicked = false
 
-    @State var mapView: Bool = false
     
     var body: some View {
         NavigationView {
+           
             ScrollView {
+                NavigationLink(destination: MapView().navigationBarBackButtonHidden(true), isActive: $isMapClicked) {
+    EmptyView()
+                    
+                }
                 VStack(alignment: .leading) {
                     HStack(alignment: .center) {
                         Image("logo")
@@ -66,7 +71,7 @@ struct DashboardView: View {
                             .frame(width: 120, height: 35)
                         
                         Spacer()
-                        Button("Events Map", action: {})
+                        Button("Events Map", action: {isMapClicked = true})
                             .foregroundColor(Color(red: 0.88, green: 0.27, blue: 0.35))
                     }
                     .padding(.horizontal)
@@ -108,12 +113,13 @@ struct DashboardView: View {
                     }
                     
                     if searchText.isEmpty  {
-                        Group {
-                            if isLoadingEvents {
-                                SkeletonLoader()
+                       
+                                Section(header: Text("Popular events").padding(.horizontal).padding(.vertical,10).bold()) {
+                                    Group {
+                                        if isLoadingEvents {
+                                            SkeletonLoader()
 
-                            } else {
-                                Section(header: Text("Popular events").padding().bold()) {
+                                        } else {
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(spacing: 20) {
                                             ForEach(eventViewModel.events) { event in
@@ -131,7 +137,7 @@ struct DashboardView: View {
                             }
                         }
                         
-                        Section(header: Text("Events by category").padding(.horizontal).padding(.top,10).bold()) {
+                        Section(header: Text("Events by category").padding(.horizontal).padding(.top,10).padding(.bottom,10).bold()) {
                             VStack {
                                 ScrollView(.horizontal, showsIndicators: false) {
                                     HStack(spacing: 10) {
@@ -227,9 +233,7 @@ struct DashboardView: View {
                     username = storedUsername
                 }
             }
-            .sheet(isPresented: $mapView) {
-                MapView()
-            }
+           
         }
     }
     // Get unique categories from events
@@ -247,7 +251,7 @@ struct EventBox: View {
     var body: some View {
         VStack {
             ZStack(alignment: .topTrailing) {
-                URLImage( URL(string: event.image) ?? URL(string: "")!) { image in
+                URLImage( URL(string: event.image) ?? URL(string: "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930")!) { image in
                                  image
                                      .resizable()
                                      .aspectRatio(contentMode: .fill)
@@ -256,24 +260,7 @@ struct EventBox: View {
                                      .padding(10)
                              }
                              
-                VStack {
-                    HStack {
-                        Spacer()
-                        ZStack {
-                            Circle()
-                                .frame(width: 33, height: 33)
-                                .foregroundColor(.white.opacity(0.55))
-                                
-                            Image(systemName: "hand.thumbsup")
-                                .resizable()
-                                .aspectRatio(contentMode: .fit)
-                                .frame(width: 18, height: 18)
-                                .foregroundColor(.white)
-                        }
-                        .padding(.horizontal)
-                        .padding(.top,16)
-                    }
-                }
+        
             }
             HStack {
                 Text(event.title)
@@ -290,7 +277,7 @@ struct EventBox: View {
                     .foregroundColor(.blue)
                     .padding(.leading, 10)
 
-                Text(String(event.location.prefix(6)))
+                Text(String(event.locationLatitude))
                             .font(.system(size: 11))
                             .fontWeight(.medium)
                             .foregroundColor(Color(red: 0.67, green: 0.67, blue: 0.67))
