@@ -45,7 +45,9 @@ class LoginViewModel: ObservableObject {
                 UserDefaults.standard.set(userResponse.token, forKey: "userToken")
                 UserDefaults.standard.set(userResponse.user.id, forKey: "userId")
                 UserDefaults.standard.set(userResponse.user.username, forKey: "userCredentials")
+                UserDefaults.standard.set(userResponse.user.avatar, forKey: "userAvatar")
                 UserDefaults.standard.set(userResponse.user.role, forKey: "userRole")
+                UserDefaults.standard.set(userResponse.user.fullName, forKey: "userFullname")
                 UserDefaults.standard.set(true, forKey: "isLoggedIn")
                 self?.isLoggedIn = true
                 print("\(userResponse.user)")

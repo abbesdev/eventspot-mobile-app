@@ -21,16 +21,20 @@ struct UserResponse: Codable {
 
 struct User: Codable {
     let id: String
+    let avatar: String
     let username: String
     let email: String
+    let fullName: String
     let password: String
     let role: String
     let otpCode: String
     
     private enum CodingKeys: String, CodingKey {
         case id = "_id"
+        case avatar
         case username
         case email
+        case fullName
         case password
         case role
         case otpCode

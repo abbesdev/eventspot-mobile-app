@@ -60,11 +60,12 @@ struct DashboardView: View {
         NavigationView {
            
             ScrollView {
-                NavigationLink(destination: MapView().navigationBarBackButtonHidden(true), isActive: $isMapClicked) {
-    EmptyView()
-                    
-                }
+                
                 VStack(alignment: .leading) {
+                    NavigationLink(destination: MapView().navigationBarBackButtonHidden(true), isActive: $isMapClicked) {
+                        EmptyView()
+                        
+                    }
                     HStack(alignment: .center) {
                         Image("logo")
                             .resizable()
@@ -84,7 +85,7 @@ struct DashboardView: View {
                         .padding(.horizontal)
                         .padding(.top, 12)
                         .padding(.bottom, 1)
-
+                    
                     
                     Text("Discover events Near you")
                         .font(.system(size: 18))
@@ -94,8 +95,8 @@ struct DashboardView: View {
                         .padding(.bottom, 20)
                     
                     ZStack(alignment: .leading) {
-                        RoundedRectangle(cornerRadius: 4)
-                            .fill(Color(red: 0.79, green: 0.8, blue: 0.82).opacity(0.24))
+                        RoundedRectangle(cornerRadius: 12)
+                            .fill(Color(red: 0.79, green: 0.8, blue: 0.82).opacity(0.14))
                             .frame(maxWidth: .infinity, maxHeight: 48)
                             .padding(.horizontal)
                         
@@ -113,13 +114,13 @@ struct DashboardView: View {
                     }
                     
                     if searchText.isEmpty  {
-                       
-                                Section(header: Text("Popular events").padding(.horizontal).padding(.vertical,10).bold()) {
-                                    Group {
-                                        if isLoadingEvents {
-                                            SkeletonLoader()
-
-                                        } else {
+                        
+                        Section(header: Text("Popular events").padding(.horizontal).padding(.vertical,10).bold()) {
+                            Group {
+                                if isLoadingEvents {
+                                    SkeletonLoader()
+                                    
+                                } else {
                                     ScrollView(.horizontal, showsIndicators: false) {
                                         HStack(spacing: 20) {
                                             ForEach(eventViewModel.events) { event in
@@ -164,7 +165,7 @@ struct DashboardView: View {
                                 Group {
                                     if isLoadingEvents {
                                         SkeletonLoader()
-
+                                        
                                     } else {
                                         ScrollView(.horizontal, showsIndicators: false) {
                                             HStack(spacing: 20) {
@@ -221,18 +222,20 @@ struct DashboardView: View {
                     Spacer()
                 }
                 .onAppear {
-                                print("DashboardView onAppear called. Fetching events...")
-                                eventViewModel.fetchDataEvents { success in
-                                    isLoadingEvents = !success
-                                }
-                            }
-
+                    print("DashboardView onAppear called. Fetching events...")
+                    eventViewModel.fetchDataEvents { success in
+                        isLoadingEvents = !success
+                    }
+                }
+                
             }
-            .onAppear {
+                .onAppear {
+           
                 if let storedUsername = UserDefaults.standard.string(forKey: "userCredentials") {
                     username = storedUsername
                 }
             }
+            
            
         }
     }
@@ -262,29 +265,31 @@ struct EventBox: View {
                              
         
             }
+            .frame(width: 240, height: 170)
+            .cornerRadius(8)
+            .padding(10)
             HStack {
                 Text(event.title)
-                    .font(.headline)
-                    .foregroundColor(.black)
+                    .font(.system(size:18))
+                    .fontWeight(.semibold)                    .foregroundColor(.black)
                     .padding(.horizontal, 10)
                 Spacer()
             }
             HStack {
-                Image(systemName: "location.fill")
+                Image("loc")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 11, height: 11)
-                    .foregroundColor(.blue)
+                    .frame(width: 18, height: 18)
                     .padding(.leading, 10)
 
                 Text(String(event.locationLatitude))
                             .font(.system(size: 11))
                             .fontWeight(.medium)
                             .foregroundColor(Color(red: 0.67, green: 0.67, blue: 0.67))
-                Image(systemName: "calendar")
+                Image("cal")
                     .resizable()
                     .aspectRatio(contentMode: .fit)
-                    .frame(width: 11, height: 11)
+                    .frame(width: 18, height: 18)
                     .foregroundColor(.blue)
                     .padding(.leading, 10)
                 Text("\(event.startDate1, formatter: dateOnlyFormatter)")                    .font(.system(size: 11))
@@ -305,6 +310,7 @@ struct EventBox: View {
                 NavigationLink(
                     destination: EventDetailsView(event: event)
                         .navigationBarBackButtonHidden(true)
+                    
                 ) {
                     HStack(alignment: .center) {
                         Text("View more")

@@ -15,12 +15,15 @@ struct RegisterView: View {
     @State private var isChecked = false
     @StateObject private var registrationViewModel = RegistrationViewModel()
     @State private var isRegistered = false
+    @State private var isAlreadyRegistered = false
     @Environment(\.presentationMode) var presentationMode
 
     var body: some View {
         NavigationView {
-            
+          
             VStack{
+              
+                
                 HStack{
                     Button(action: {
                         presentationMode.wrappedValue.dismiss()
@@ -186,15 +189,25 @@ struct RegisterView: View {
                         registrationViewModel.register()
                         
                     }
-                    
-                    Text("Already registered in the app? Login")
-                        .font(
-                            Font.custom("SF Pro Text", size: 16)
-                                .weight(.medium)
-                        )
-                        .multilineTextAlignment(.center)
-                        .foregroundColor(Color(red: 0.13, green: 0.15, blue: 0.17))
-                    
+                    HStack{
+                        Text("Already registered in the app?")
+                            .font(
+                                .system( size: 16)
+                                    .weight(.medium)
+                            )
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(Color(red: 0.13, green: 0.15, blue: 0.17))
+                        Text("Login")
+                            .font(
+                                .system( size: 16)
+                                    .weight(.medium)
+                            )
+                            .multilineTextAlignment(.center)
+                            .foregroundColor(Color(red: 0.97, green: 0.15, blue: 0.17))
+                    }
+                    .onTapGesture {
+                        isAlreadyRegistered = true
+                    }
                 }
             }
             
@@ -212,7 +225,8 @@ struct RegisterView: View {
                               isActive: $isRegistered,
                               label: { EmptyView() }
                           )
-                      )
+                          )
+
               .onReceive(registrationViewModel.$isRegistered) { value in
                   if value {
                       isRegistered = true

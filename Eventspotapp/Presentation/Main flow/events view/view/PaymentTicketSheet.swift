@@ -4,7 +4,8 @@ import URLImage
 struct PaymentTicketSheet: View {
     let event: EventResponse
     @Environment(\.presentationMode) var presentationMode
-
+    @State private var showPaymentForm = false
+     @State private var paymentToken: String?
     var body: some View {
         NavigationView {
             VStack {
@@ -31,7 +32,9 @@ struct PaymentTicketSheet: View {
                                                         .frame(width: 100, height: 100)
                                                         .cornerRadius(4)
                                                         .padding(4)
-                                                })
+                                                }).frame(width: 100, height: 100)
+                            .cornerRadius(4)
+                            .padding(4)
                         VStack{
                             Text(event.title)
                               .font(
@@ -207,16 +210,17 @@ struct PaymentTicketSheet: View {
                 // Add payment and confirmation buttons here
                 Button(action: {
                     // Add your payment logic here
+                    showPaymentForm = true
+
                     // For demonstration purposes, just close the sheet when the button is tapped
-                    presentationMode.wrappedValue.dismiss()
                 }) {
-                    Text("Pay Now")
+                    Text("Proceed to payment page")
                         .foregroundColor(.white)
                         .font(.headline)
                         .padding(.vertical, 12)
                         .frame(maxWidth: .infinity)
                         .background(Color(red: 0.88, green: 0.27, blue: 0.35))
-                        .cornerRadius(8)
+                        .cornerRadius(12)
                 }
                 .padding(.horizontal, 20)
                 .padding(.vertical, 10)
@@ -224,6 +228,16 @@ struct PaymentTicketSheet: View {
                 
                 Spacer()
             }
+            .sheet(isPresented: $showPaymentForm) {
+                
+              
+                        CheckoutView( event: event)
+                           
+                    
+                  
+                
+            }
+
             .navigationBarTitle("Ticket details", displayMode: .large)
             .navigationBarItems(leading:
                                     
@@ -240,11 +254,8 @@ struct PaymentTicketSheet: View {
             }
                                 
             )
-            // Close the payment ticket sheet when tapped outside
-            Spacer()
-                .onTapGesture {
-                    presentationMode.wrappedValue.dismiss()
-                }
+      
+                
         }
 
     }
@@ -259,7 +270,44 @@ struct PaymentTicketSheet: View {
             formatter.dateFormat = "h:mm a" // Use the format you want, e.g., "h:mm a" for 12-hour time format with AM/PM
             return formatter
         }()
+    // Make an API call to your backend to create the order and process the payment
+    // Use URLSession or any other networking library to send the data to the backend
 
+
+    func createOrder() {
+        guard let userId = UserDefaults.standard.string(forKey: "userId") else {
+return
+        }
+        let paymentToken = "YOUR_PAYMENT_TOKEN" // Replace this with the actual payment token
+        let orderData: [String: Any] = [
+            "eventId": event.id,
+            "ticketType": event.tickets.first?.type,
+            "buyer": userId,
+            "paymentToken": paymentToken // Pass the payment token to the backend
+        ]
+
+        // Use URLSession or any other networking library to send the data to the backend
+        guard let url = URL(string: "\(BASE_URL)api/orders") else {
+            return
+        }
+
+        var request = URLRequest(url: url)
+        request.httpMethod = "POST"
+        request.setValue("application/json", forHTTPHeaderField: "Content-Type")
+        request.httpBody = try? JSONSerialization.data(withJSONObject: orderData)
+
+        URLSession.shared.dataTask(with: request) { data, response, error in
+            // Handle the response from the backend here
+            if let data = data {
+                do {
+                    let json = try JSONSerialization.jsonObject(with: data, options: [])
+                    print(json) // This will be the response from your backend API after processing the payment and creating the order
+                } catch {
+                    print(error)
+                }
+            }
+        }.resume()
+    }
 }
 
 // Helper view for displaying ticket details in a row format
@@ -280,4 +328,8 @@ struct TicketDetailRow: View {
             }
         }
     }
+    
+    
 }
+
+

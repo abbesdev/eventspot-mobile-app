@@ -11,28 +11,29 @@ import URLImage
 struct EventListBox: View {
     var event: EventResponse
       @State private var isExpanded = false
+    @State private var isImageLoaded = false
 
       var body: some View {
           VStack {
               HStack {
-                  URLImage(URL(string: event.image) ?? URL(string: "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930")!,
-                                          failure: { error, _ in
-                                              // Display the placeholder image in case of an error or if the image is not available
-                                              Image("placeholder") // Replace "placeholderImage" with the actual name of your placeholder image asset.
-                                                  .resizable()
-                                                  .aspectRatio(contentMode: .fill)
-                                                  .frame(width: 60, height: 60)
-                                                  .cornerRadius(4)
-                                                  .padding(12)
-                                          },
-                                          content: { image in
-                                              image
-                                                  .resizable()
-                                                  .aspectRatio(contentMode: .fill)
-                                                  .frame(width: 60, height: 60)
-                                                  .cornerRadius(4)
-                                                  .padding(12)
-                                          })
+                 
+                                     URLImage( URL(string: event.image) ?? URL(string: "https://upload.wikimedia.org/wikipedia/commons/1/14/No_Image_Available.jpg?20200913095930")!,
+                                              content: { image in
+                                                  image
+                                                      .resizable()
+                                                      .aspectRatio(contentMode: .fill)
+                                                      .frame(width: 60, height: 60)
+                                                      .cornerRadius(4)
+                                                      .padding(12)
+                                     }).frame(width: 60, height: 60)
+                      .padding(12)
+                                
+
+                               
+                   
+
+
+
                            
                   
                   VStack(alignment: .leading) {
@@ -124,7 +125,7 @@ Spacer()
 
 struct EventView: View {
     @State private var isAddEventViewShown = false
-
+    @State private var shouldRefreshData = false
     //variables
     @State private var searchText = ""
     @ObservedObject var eventViewModel = EventViewModel()
@@ -137,13 +138,16 @@ struct EventView: View {
         NavigationView {
             
             VStack {
-                NavigationLink(destination: AddEventView().navigationBarBackButtonHidden(true), isActive: $isAddEventViewShown) {
-EmptyView()
+                NavigationLink(destination: AddEventView().navigationBarBackButtonHidden(true) .onDisappear {
+                    refreshEventData()
+
+                }, isActive: $isAddEventViewShown) {
+                    EmptyView()
                     
                 }
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color(red: 0.79, green: 0.8, blue: 0.82).opacity(0.24))
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(red: 0.79, green: 0.8, blue: 0.82).opacity(0.14))
                         .frame(maxWidth: .infinity, maxHeight: 48)
                         .padding(.horizontal)
                     
@@ -160,7 +164,7 @@ EmptyView()
                     }
                     
                 }.padding(.top,15)
-                   
+                
                 Picker(selection: $selectedOption, label: Text("")) {
                     Text("Past").tag("Past")
                     Text("Upcoming").tag("Upcoming")
@@ -179,42 +183,56 @@ EmptyView()
                     .listStyle(PlainListStyle()) // Set the list style to PlainListStyle
                 }
                 else {
-                        ScrollView() {
-                                ForEach(filteredEvents.filter { event in
-                                    event.title.localizedCaseInsensitiveContains(searchText)
-                                }) { event in
-                                    EventListBox(event: event)
-                                        .listRowInsets(EdgeInsets()) // Remove row insets
-                                        .padding(.horizontal)
-                                        .padding(.bottom, 4)
-                                }
-                            }.listStyle(PlainListStyle()) // Set the list style to PlainListStyle
-                            
-                        
-                    }
-                }
-            
-                .navigationBarTitle("My events", displayMode: .large)
-                .navigationBarItems(trailing:
-                                        
-                                        Button(action: {
-                    // Perform action when the button is tapped
-                    isAddEventViewShown = true // Trigger the presentation of AddEventView
-                   
-                }) {
-                    Text("Add event")
-                        .foregroundColor(Color(red: 0.89, green: 0.27, blue: 0.34))
-                        .padding(.vertical, 6)
-                        .padding(.horizontal, 14)
+                    ScrollView() {
+                        ForEach(filteredEvents.filter { event in
+                            event.title.localizedCaseInsensitiveContains(searchText)
+                        }) { event in
+                            EventListBox(event: event)
+                                .listRowInsets(EdgeInsets()) // Remove row insets
+                                .padding(.horizontal)
+                                .padding(.bottom, 4)
+                        }
+                    }.listStyle(PlainListStyle()) // Set the list style to PlainListStyle
+                    
                     
                 }
-                                    
-                )
-              
             }
-           
-           
+            
+            
+            .navigationBarTitle("My events", displayMode: .large)
+            .onAppear {
+                
+                    refreshEventData()
+                
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSNotification.Name("AddEventViewDismissed"))) { _ in
+                shouldRefreshData = true
+            }
+            .navigationBarItems(trailing:
+                                    
+                                    Button(action: {
+                // Perform action when the button is tapped
+                isAddEventViewShown = true // Trigger the presentation of AddEventView
+                
+            }) {
+                Text("Add event")
+                    .foregroundColor(Color(red: 0.89, green: 0.27, blue: 0.34))
+                    .padding(.vertical, 6)
+                    .padding(.horizontal, 14)
+                
+            }
+                                
+            )
+            
+            
         }
+    }
+    private func refreshEventData() {
+           eventViewModel.fetchDataEventsByOrganizerID { success in
+               // Handle the result of the API call here if needed
+           }
+       }
+        
     
     private var filteredEvents: [EventResponse] {
            let currentDate = Date()

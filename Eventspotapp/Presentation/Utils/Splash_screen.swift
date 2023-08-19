@@ -18,7 +18,7 @@ struct Splash_screen: View {
                     .opacity(fadeOut ? 0 : 1)
             }
             .onAppear {
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 2) {
                     withAnimation {
                         navigateToNextView = true
                     }
@@ -38,7 +38,8 @@ struct Splash_screen: View {
         // Check if the user is already logged in
         let isLoggedIn = UserDefaults.standard.bool(forKey: "isLoggedIn")
         if isLoggedIn {
-            return AnyView(MainView().navigationBarBackButtonHidden(true))
+            return AnyView(MainView().navigationBarBackButtonHidden(true)
+            )
         }
         
         // Check if the app has been opened before

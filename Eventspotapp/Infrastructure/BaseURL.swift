@@ -7,4 +7,4 @@
 
 import Foundation
 
-let BASE_URL = "http://localhost:3000/"
+let BASE_URL = "https://eventspot-mobile-app-backend.vercel.app/"

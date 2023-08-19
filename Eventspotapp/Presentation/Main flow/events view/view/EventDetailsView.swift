@@ -6,15 +6,14 @@
 //
 
 import SwiftUI
-import MapKit
 import URLImage
+import MapKit
 
 struct EventDetailsView: View {
     @Environment(\.presentationMode) var presentationMode
     let event: EventResponse
-    @State private var region = MKCoordinateRegion()
-    @State private var isLocationGeocoded = false
-    @State private var annotations: [MKPointAnnotation] = []
+    @State private var locationName: String = ""
+
     @State private var isShowingPaymentTicketSheet = false
 
     var body: some View {
@@ -60,6 +59,7 @@ struct EventDetailsView: View {
                                     .foregroundColor(.blue)
                                     .padding()
                         }
+                        .frame(maxWidth: .infinity, minHeight: 250)
                         HStack{
                             Text(event.title)
                                 .font(
@@ -77,7 +77,7 @@ struct EventDetailsView: View {
                         }
                         .padding(.horizontal)
                         HStack{
-                            Image(systemName: "calendar")
+                            Image("cal")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
                                 .frame(width: 18, height: 18)
@@ -118,7 +118,7 @@ struct EventDetailsView: View {
                         }
                         .frame(maxWidth: .infinity)
                         HStack{
-                            Image("avatar") // Replace with your image name or URL
+                            Image("tick") // Replace with your image name or URL
                                 .resizable()
                                 .aspectRatio(contentMode: .fill)
                                 .frame(width: 46, height: 46)
@@ -126,7 +126,7 @@ struct EventDetailsView: View {
                                 .overlay(Circle().stroke(Color.gray, lineWidth: 2))
                             VStack{
                                 // Label 1
-                                Text(event.organizer)
+                                Text("Individual")
                                     .font(
                                         .system( size: 17)
                                             .weight(.semibold)
@@ -134,7 +134,7 @@ struct EventDetailsView: View {
                                     .foregroundColor(Color(red: 0.09, green: 0.1, blue: 0.12))
                                     .frame(width: 229, alignment: .topLeading)
                                 // Subhead
-                                Text("CEO of SpaceX")
+                                Text("Verified organizer")
                                     .font(.system( size: 15))
                                     .foregroundColor(Color(red: 0.61, green: 0.62, blue: 0.64))
                                     .frame(width: 229, alignment: .topLeading)
@@ -154,30 +154,32 @@ struct EventDetailsView: View {
                             .padding(.horizontal)
                         
                         HStack{
-                            Image(systemName: "location.fill")
+                            Image("loc")
                                 .resizable()
                                 .aspectRatio(contentMode: .fit)
-                                .frame(width: 11, height: 11)
+                                .frame(width: 18, height: 18)
                                 .foregroundColor(.blue)
                                 .padding(.leading,10)
-                            Text("\(event.locationLatitude)")
-                                .font(.system( size: 12))
+                            Text(locationName)
+                                .font(.system(size: 12))
                                 .foregroundColor(Color(red: 0.67, green: 0.67, blue: 0.67))
                         }
-                        if isLocationGeocoded {
-                            Map(coordinateRegion: $region, annotationItems: annotations) { annotation in
-                                                       MapPin(coordinate: annotation.coordinate)
-                                                   }
-                                                   .frame(height: 300)
-                                                   .cornerRadius(12)
-                                                   .padding()
-                                           } else {
-                                               ProgressView("Wait for the map to load please...")
-                                                   .padding()
-                                                   .onAppear {
-                                                       setRegion()
-                                                   }
-                                           }
+                        HStack(alignment: .center, spacing: 0) {
+                            Text("Set directions in Maps")
+                                .foregroundColor(.black)
+                        }
+                        .onTapGesture {
+                               openMapsForDirections()
+                           }
+                        .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
+                        .overlay(
+                            RoundedRectangle(cornerRadius: 4)
+                                .stroke(Color.gray.opacity(0.3), lineWidth: 1)
+                        )
+                        .background(Color.white)
+                        .padding(.horizontal)
+                        .padding(.vertical,6)
+                    
                  
                         
                     }
@@ -190,13 +192,19 @@ struct EventDetailsView: View {
                     
                     .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
                     .background(Color(red: 0.88, green: 0.27, blue: 0.35))
-                    .cornerRadius(4)
+                    .cornerRadius(12)
                     .padding(.horizontal)
+                    .padding(.bottom)
                     .onTapGesture {
                                         // Show the payment ticket sheet when the "Join this event" button is tapped
                                         isShowingPaymentTicketSheet = true
                                     }
            
+                }
+            }
+            .onAppear {
+                getLocationNameFromCoordinates(latitude: event.locationLatitude, longitude: event.locationLongitude) { locationName in
+                    self.locationName = locationName
                 }
             }
             .sheet(isPresented: $isShowingPaymentTicketSheet) {
@@ -209,29 +217,50 @@ struct EventDetailsView: View {
             formatter.dateFormat = "yyyy-MM-dd"
             return formatter
         }()
-    private func setRegion() {
-        let location = CLLocation(latitude: event.locationLatitude, longitude: event.locationLongitude)
-        
-        // Use CLGeocoder to perform reverse geocoding
+    private func getLocationNameFromCoordinates(latitude: Double, longitude: Double, completion: @escaping (String) -> Void) {
+        let location = CLLocation(latitude: latitude, longitude: longitude)
         let geocoder = CLGeocoder()
+        
         geocoder.reverseGeocodeLocation(location) { placemarks, error in
-            if let error = error {
-                print("Error geocoding location: \(error.localizedDescription)")
+            guard error == nil, let placemark = placemarks?.first else {
+                completion("Location Not Found")
                 return
             }
             
-            // Update the region once reverse geocoding is complete
-            if let placemark = placemarks?.first {
-                let coordinateRegion = MKCoordinateRegion(center: location.coordinate, span: MKCoordinateSpan(latitudeDelta: 0.2, longitudeDelta: 0.2))
-                region = coordinateRegion
-                isLocationGeocoded = true // Set the flag to true once the geocoding is done
-                annotations = [MKPointAnnotation(__coordinate: location.coordinate)] // Add a map annotation for the event location
+            var nameComponents: [String] = []
+            if let name = placemark.name {
+                nameComponents.append(name)
             }
+            if let city = placemark.locality {
+                nameComponents.append(city)
+            }
+            if let country = placemark.country {
+                nameComponents.append(country)
+            }
+            
+            let locationName = nameComponents.joined(separator: ", ")
+            completion(locationName)
         }
     }
+    private func openMapsForDirections() {
+        let latitude = event.locationLatitude
+        let longitude = event.locationLongitude
+        
+        let coordinate = CLLocationCoordinate2D(latitude: latitude, longitude: longitude)
+        let placemark = MKPlacemark(coordinate: coordinate)
+        let mapItem = MKMapItem(placemark: placemark)
+        mapItem.name = event.title // Set the name of the destination in Maps
+
+        // You can specify options for launching the Maps app, if needed
+        let launchOptions = [MKLaunchOptionsDirectionsModeKey: MKLaunchOptionsDirectionsModeDriving]
+        
+        // Open Maps with the intent for directions
+        mapItem.openInMaps(launchOptions: launchOptions)
+    }
+
+
+
     
 }
-extension MKPointAnnotation: Identifiable {
-    public var id: UUID { UUID() }
-}
+
 

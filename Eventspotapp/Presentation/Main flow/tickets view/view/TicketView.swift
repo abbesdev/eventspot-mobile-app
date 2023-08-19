@@ -32,7 +32,9 @@ struct TicketListBox: View {
                                                   .frame(width: 60, height: 60)
                                                   .cornerRadius(4)
                                                   .padding(12)
-                                          })
+                                          }).frame(width: 60, height: 60)
+                      
+                      .padding(12)
                            
                   
                   VStack(alignment: .leading) {
@@ -116,8 +118,8 @@ struct TicketView: View {
             VStack {
              
                 ZStack(alignment: .leading) {
-                    RoundedRectangle(cornerRadius: 4)
-                        .fill(Color(red: 0.79, green: 0.8, blue: 0.82).opacity(0.24))
+                    RoundedRectangle(cornerRadius: 12)
+                        .fill(Color(red: 0.79, green: 0.8, blue: 0.82).opacity(0.14))
                         .frame(maxWidth: .infinity, maxHeight: 48)
                         .padding(.horizontal)
                     

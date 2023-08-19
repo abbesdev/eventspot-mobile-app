@@ -10,9 +10,10 @@ import SwiftUI
 struct MainView: View {
     @State private var selectedTab = 0
     @State private var userRole = "normal user" // Replace this with your method to get the user's role
-  
+
     var body: some View {
         TabView(selection: $selectedTab) {
+         
             // Home view
             DashboardView()
                 .tabItem {

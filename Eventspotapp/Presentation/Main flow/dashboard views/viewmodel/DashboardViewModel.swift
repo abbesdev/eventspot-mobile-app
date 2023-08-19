@@ -77,7 +77,7 @@ class EventViewModel: ObservableObject {
 
             do {
                 let decodedData = try JSONDecoder().decode([EventResponse].self, from: data)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
                     self.events = decodedData
                     completion(true)
                 }
@@ -116,7 +116,7 @@ return
 
             do {
                 let decodedData = try JSONDecoder().decode([EventResponse].self, from: data)
-                DispatchQueue.main.asyncAfter(deadline: .now() + 3) {
+                DispatchQueue.main.asyncAfter(deadline: .now() + 0) {
                     self.eventsByOrganizerId = decodedData
                     completion(true)
                 }

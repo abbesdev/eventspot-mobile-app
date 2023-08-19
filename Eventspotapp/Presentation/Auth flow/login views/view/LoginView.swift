@@ -16,46 +16,22 @@ struct LoginView: View {
     @Environment(\.presentationMode) var presentationMode
     var body: some View {
         NavigationView {
-            
+            ScrollView{
             VStack{
-                HStack{
-                    Button(action: {
-                        presentationMode.wrappedValue.dismiss()
-                    }) {
-                        Image("barr") // Replace with your image name or URL
-                            .resizable()
-                            .aspectRatio(contentMode: .fit)
-                            .frame(width: 18, height: 18) // Adjust the size of the image
-                            .foregroundColor(.blue) // Change the color of the image as desired
-                            .padding(14)
-                            .overlay(
-                                Circle()
-                                
-                                    .stroke(Color.gray.opacity(0.4), lineWidth: 0.5)
-                            )
-                            .padding(.horizontal)
-                            .padding(.bottom,8)
-                        Spacer()
-                    }
+                NavigationLink(destination: MainView().navigationBarBackButtonHidden(true), isActive: $loginViewModel.isLoggedIn) {
+                    EmptyView()
                 }
-                Text("Login")
-                    .font(
-                        .system( size: 30)
-                    )
-                    .bold()
-                    .padding(.horizontal)
                 
-                    .kerning(0.374)
-                    .foregroundColor(.black)
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                Text("Join a community of events worldwide to experience seamless experience")
-                    .font(.system( size: 18))
-                    .foregroundColor(Color(red: 0.67, green: 0.67, blue: 0.67))
-                    .frame(maxWidth: .infinity, alignment: .topLeading)
-                    .padding(.horizontal)
-                    .padding(.top,1)
-                    .padding(.bottom,10)
-                
+                VStack{
+                    
+                    Text("Join a community of events worldwide to experience seamless experience")
+                        .font(.system( size: 18))
+                        .foregroundColor(Color(red: 0.67, green: 0.67, blue: 0.67))
+                        .frame(maxWidth: .infinity,minHeight: 48, alignment: .topLeading )
+                        .padding(.horizontal)
+                        .padding(.top,10)
+                        .padding(.bottom,20)
+                }
                 
                 
                 VStack{
@@ -69,7 +45,7 @@ struct LoginView: View {
                         .foregroundColor(.black)
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                     TextField("Enter your email address", text: $email)
-                        .frame(maxWidth: .infinity, maxHeight: 48)
+                        .frame(maxWidth: .infinity, minHeight: 48)
                         .padding(.horizontal)
                         .background(Color(red: 0.79, green: 0.8, blue: 0.82).opacity(0.24))
                         .cornerRadius(4)
@@ -77,7 +53,7 @@ struct LoginView: View {
                         .padding(.bottom,10)
                     
                 }
-                VStack{
+                VStack {
                     Text("Password")
                         .font(
                             .system( size: 16)
@@ -89,7 +65,7 @@ struct LoginView: View {
                         .frame(maxWidth: .infinity, alignment: .topLeading)
                     ZStack(alignment: .trailing) {
                         SecureField("Enter your password", text: $password)
-                            .frame(maxWidth: .infinity, maxHeight: 48)
+                            .frame(maxWidth: .infinity, minHeight: 48)
                             .padding(.horizontal)
                             .background(Color(red: 0.79, green: 0.8, blue: 0.82).opacity(0.24))
                             .cornerRadius(4)
@@ -128,18 +104,18 @@ struct LoginView: View {
                 Spacer()
                 
                 HStack(alignment: .center, spacing: 0) {
-                                  Button(action: {
-                                      print("button clicked")
-                                      loginViewModel.email = email
-                                      loginViewModel.password = password
-                                      loginViewModel.login() // Call the login function from the ViewModel
-                                  }) {
-                                      Text("Login")
-                                          .foregroundColor(.white)
-                                  }
-                              }
+                    Button(action: {
+                        print("button clicked")
+                        loginViewModel.email = email
+                        loginViewModel.password = password
+                        loginViewModel.login() // Call the login function from the ViewModel
+                    }) {
+                        Text("Login")
+                            .foregroundColor(.white)
+                    }
+                }
                 
-                .frame(maxWidth: .infinity, maxHeight: 48, alignment: .center)
+                .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
                 .background(Color(red: 0.88, green: 0.27, blue: 0.35))
                 .cornerRadius(4)
                 .padding(.horizontal)
@@ -148,7 +124,7 @@ struct LoginView: View {
                         .foregroundColor(.black)
                 }
                 
-                .frame(maxWidth: .infinity, maxHeight: 48, alignment: .center)
+                .frame(maxWidth: .infinity, minHeight: 48, alignment: .center)
                 .overlay(
                     RoundedRectangle(cornerRadius: 4)
                         .stroke(Color.gray.opacity(0.3), lineWidth: 1)
@@ -174,15 +150,10 @@ struct LoginView: View {
                     .multilineTextAlignment(.center)
                     .foregroundColor(Color(red: 0.13, green: 0.15, blue: 0.17))
                 
-            }.onAppear {
-                print("DashboardView onAppear called. Fetching events...")
-                loginViewModel.login()
             }
-            .background(
-                NavigationLink(destination: MainView().navigationBarBackButtonHidden(true), isActive: $loginViewModel.isLoggedIn) {
-                            EmptyView()
-                        }
-                    )
+            .navigationTitle("Login")
+            .navigationBarTitleDisplayMode(.large)
+        }
         }
         
         
@@ -207,6 +178,7 @@ struct LoginView: View {
         //                  }
         //              }
         .navigationBarHidden(true)
+      
     
     }
 }

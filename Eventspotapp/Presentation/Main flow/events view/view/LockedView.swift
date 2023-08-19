@@ -10,6 +10,7 @@ import SwiftUI
 struct LockedView: View {
     //variables
     @State private var isYearlySelected = false
+    @State private var isMembershipDetailsSheetPresented = false // New state variable
 
     
     var body: some View {
@@ -47,10 +48,10 @@ struct LockedView: View {
                                    .foregroundColor(isYearlySelected ? .black : .white)
                                    .padding(.horizontal, 14)
                                    .padding(.vertical, 10)
-                                   .background(isYearlySelected ? Color.white : Color(red: 0.88, green: 0.27, blue: 0.35))
+                                   .background(isYearlySelected ? Color(red: 0.97, green: 0.98, blue: 0.98) : Color(red: 0.88, green: 0.27, blue: 0.35))
                                    .cornerRadius(100)
-                                   .shadow(color: Color(red: 0.06, green: 0.09, blue: 0.16).opacity(isYearlySelected ? 0.1 : 0.06), radius: isYearlySelected ? 1.5 : 1, x: 0, y: 1)
-                                   .shadow(color: Color(red: 0.06, green: 0.09, blue: 0.16).opacity(isYearlySelected ? 0.1 : 0.06), radius: isYearlySelected ? 2.5 : 1.5, x: 0, y: 1)
+                                   .shadow(color:isYearlySelected ?Color.clear : Color(red: 0.06, green: 0.09, blue: 0.0).opacity(isYearlySelected ? 0.1 : 0.06), radius: isYearlySelected ? 0 : 1, x: 0, y: 1)
+                                   .shadow(color: Color(red: 0.06, green: 0.09, blue: 0.16).opacity(isYearlySelected ? 0 : 0.06), radius: isYearlySelected ? 0 : 1.5, x: 0, y: 1)
                            }
                            
                            Button(action: {
@@ -61,10 +62,10 @@ struct LockedView: View {
                                    .foregroundColor(isYearlySelected ? .white : .black)
                                    .padding(.horizontal, 14)
                                    .padding(.vertical, 10)
-                                   .background(isYearlySelected ? Color(red: 0.88, green: 0.27, blue: 0.35) : Color.white)
+                                   .background(isYearlySelected ? Color(red: 0.88, green: 0.27, blue: 0.35) : Color(red: 0.97, green: 0.98, blue: 0.98))
                                    .cornerRadius(100)
-                                   .shadow(color: Color(red: 0.06, green: 0.09, blue: 0.16).opacity(isYearlySelected ? 0.06 : 0.1), radius: isYearlySelected ? 1 : 1.5, x: 0, y: 1)
-                                   .shadow(color: Color(red: 0.06, green: 0.09, blue: 0.16).opacity(isYearlySelected ? 0.06 : 0.1), radius: isYearlySelected ? 1.5 : 2.5, x: 0, y: 1)
+                                   .shadow(color: Color(red: 0.06, green: 0.09, blue: 0).opacity(isYearlySelected ? 0.06 : 0.1), radius: isYearlySelected ? 1 : 0, x: 0, y: 0)
+                                   .shadow(color: Color(red: 0.06, green: 0.09, blue: 0).opacity(isYearlySelected ? 0.06 : 0), radius: isYearlySelected ? 1.5 : 2.5, x: 0, y: 1)
                            }
                        }
                        .padding(6)
@@ -207,13 +208,17 @@ struct LockedView: View {
                             .padding(.vertical, 10)
                             .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .center)
                             .background(Color(red: 0.88, green: 0.27, blue: 0.35))
-                            .cornerRadius(4)
+                            .cornerRadius(12)
                             .shadow(color: Color(red: 0.06, green: 0.09, blue: 0.16).opacity(0.05), radius: 1, x: 0, y: 1)
                             .overlay(
-                              RoundedRectangle(cornerRadius: 4)
+                              RoundedRectangle(cornerRadius: 12)
                                 .inset(by: 0.5)
                                 .stroke(.white, lineWidth: 1)
                             )
+                            .onTapGesture{
+                                isMembershipDetailsSheetPresented = true
+
+                            }
                         }
                         .padding(.horizontal, 24)
                         .padding(.vertical, 18)
@@ -352,14 +357,18 @@ struct LockedView: View {
                                   )
                                   .foregroundColor(.white)
                             }
+                            .onTapGesture {
+                                isMembershipDetailsSheetPresented = true
+
+                            }
                             .padding(.horizontal, 18)
                             .padding(.vertical, 10)
                             .frame(maxWidth: .infinity, minHeight: 48, maxHeight: 48, alignment: .center)
                             .background(Color(red: 0.88, green: 0.27, blue: 0.35))
-                            .cornerRadius(4)
+                            .cornerRadius(12)
                             .shadow(color: Color(red: 0.06, green: 0.09, blue: 0.16).opacity(0.05), radius: 1, x: 0, y: 1)
                             .overlay(
-                              RoundedRectangle(cornerRadius: 4)
+                              RoundedRectangle(cornerRadius: 12)
                                 .inset(by: 0.5)
                                 .stroke(.white, lineWidth: 1)
                             )
@@ -390,6 +399,13 @@ struct LockedView: View {
             .padding(.horizontal, 20)
             .padding(.vertical, 0)
             .frame(width: 394, alignment: .center)
+            .sheet(isPresented: $isMembershipDetailsSheetPresented) {
+                        // Show the membership details sheet
+                        MembershipDetailsSheet(membershipName: isYearlySelected ? "Pro" : "Basic",
+                                               membershipDescription: "Membership details here...",
+                                               price: "$\(isYearlySelected ? "99" : "10")",
+                                               isPresented: $isMembershipDetailsSheetPresented)
+                    }
         }
     }
 

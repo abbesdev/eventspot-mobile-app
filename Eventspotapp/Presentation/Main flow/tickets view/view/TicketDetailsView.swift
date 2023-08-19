@@ -40,6 +40,8 @@ struct TicketDetailsView: View {
                                                         .cornerRadius(4)
                                                         .padding(4)
                                                 })
+                        .frame(width: 100, height: 100)
+                        .padding(4)
                         VStack{
                             Text(event.eventId.title)
                               .font(
